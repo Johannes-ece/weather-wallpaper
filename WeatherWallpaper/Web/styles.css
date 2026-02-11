@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #050508;
+  --text: rgba(255,255,255,0.92);
+  --text-mid: rgba(255,255,255,0.6);
+  --text-dim: rgba(255,255,255,0.38);
+  --bar-bg: rgba(10, 10, 20, 0.35);
+  --bar-border: rgba(255,255,255,0.1);
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Globe map */
+#globe-map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+/* Hide orbs when WebGL globe is active */
+body.has-webgl .orb { display: none; }
+
+/* Floating gradient orbs (fallback) */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #A3B18A, transparent);
+  top: -10%; left: -5%;
+  animation: float1 20s ease-in-out infinite;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #C9A84C, transparent);
+  bottom: -10%; right: -5%;
+  animation: float2 25s ease-in-out infinite;
+}
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #B8C9A3, transparent);
+  top: 40%; right: 20%;
+  animation: float3 18s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(40px, 30px); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, -40px); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, 20px); }
+}
+
+/* Fade-up animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.5s ease-out forwards;
+}
+.fade-up-1 { animation-delay: 0.05s; }
+.fade-up-2 { animation-delay: 0.2s; }
+
+/* Pulsing live dot */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.5); }
+}
+
+/* Full-page layout */
+.page {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 38px 32px 90px;
+  pointer-events: none;
+}
+
+.spacer { flex: 1; }
+
+/* Badge — top */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bar-bg);
+  border: 1px solid var(--bar-border);
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  pointer-events: none;
+  cursor: default;
+}
+.live-dot {
+  width: 6px; height: 6px;
+  background: var(--accent, #C9A84C);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Bottom area — bar + leaf toggle */
+.bottom-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  width: 100%;
+  max-width: 1000px;
+  pointer-events: none;
+}
+
+/* Toggle buttons column */
+.toggle-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+/* Toggle button (leaf, flights) */
+.leaf-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bar-bg);
+  border: 1px solid var(--bar-border);
+  border-radius: 10px;
+  color: var(--text-dim);
+  cursor: default;
+  pointer-events: none;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+}
+.leaf-btn.active {
+  color: var(--accent, #C9A84C);
+  border-color: var(--accent, #C9A84C);
+  background: rgba(10, 10, 20, 0.45);
+}
+
+/* Bottom bar */
+.bottom-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bar-bg);
+  border: 1px solid var(--bar-border);
+  border-radius: 16px;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  padding: 16px 28px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Toggle views inside bottom bar */
+.bar-view {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.bar-hidden {
+  display: none !important;
+}
+
+.bar-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 24px;
+  flex-shrink: 0;
+}
+
+/* Current temp + condition */
+.bar-current {
+  flex-shrink: 0;
+}
+.bar-temp-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.temperature {
+  font-family: 'Instrument Serif', serif;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--text);
+  letter-spacing: -2px;
+}
+.temperature .unit {
+  font-size: 22px;
+  letter-spacing: 0;
+  margin-left: -1px;
+  color: var(--text-mid);
+}
+.bar-condition {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.condition {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--text-mid);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/* Stats row */
+.bar-stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.stat-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+.stat-value {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* Sun arc widget */
+.sun-arc-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.sun-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.sun-arc-svg {
+  width: 90px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+/* Forecast row */
+.bar-forecast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-end;
+}
+.forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+.forecast-day {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+.forecast-cond {
+  font-size: 9px;
+  color: var(--text-dim);
+  line-height: 1;
+}
+.forecast-temps {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.forecast-high {
+  font-family: 'Instrument Serif', serif;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1;
+}
+.forecast-low {
+  font-family: 'Instrument Serif', serif;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1;
+}
+
+/* Loading state */
+.bar-loading {
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+/* Allergy / Air Quality view */
+.allergy-content {
+  width: 100%;
+}
+.allergy-grid {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+.allergy-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.allergy-sublabel {
+  font-size: 9px;
+  color: var(--text-dim);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.allergy-aqi .stat-value {
+  font-size: 28px;
+}
+.allergy-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+/* AQI colors */
+.aqi-good { color: #68C97A; }
+.aqi-moderate { color: #C9C44C; }
+.aqi-sensitive { color: #C9944C; }
+.aqi-unhealthy { color: #C94C4C; }
+.aqi-very-unhealthy { color: #8A4CC9; }
+.aqi-hazardous { color: #7A2030; }
+
+/* Pollen index colors */
+.pollen-none { color: var(--text-dim); }
+.pollen-very-low { color: #68C97A; }
+.pollen-low { color: #A3C968; }
+.pollen-moderate { color: #C9C44C; }
+.pollen-high { color: #C9944C; }
+.pollen-very-high { color: #C94C4C; }
+
+/* Pollen scale suffix */
+.pollen-scale {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  margin-left: 1px;
+}
+
+/* City marker on map */
+.city-marker-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: marker-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes marker-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px 0 var(--marker-accent, #C9A84C); }
+  50% { opacity: 0.5; box-shadow: 0 0 8px 5px var(--marker-accent, #C9A84C); }
+}
+
+/* Flight detail card */
+.flight-card {
+  position: fixed;
+  top: 28px;
+  right: 28px;
+  z-index: 50;
+  width: 220px;
+  background: var(--bar-bg);
+  border: 1px solid var(--bar-border);
+  border-radius: 14px;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  padding: 16px 18px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  visibility: hidden;
+}
+.flight-card.active {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+.fc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.fc-callsign {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.fc-close {
+  display: none;
+}
+.fc-country {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.fc-route {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  min-height: 18px;
+}
+.fc-airport {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+.fc-arrow {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.fc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+.fc-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.fc-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+.fc-value {
+  font-family: 'Instrument Serif', serif;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.2;
+}
+.fc-unit {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}

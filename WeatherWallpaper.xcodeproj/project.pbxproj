@@ -1,0 +1,303 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20001; };
+		A10002 /* DesktopWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20002; };
+		A10003 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20003; };
+		A10010 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = A20010; };
+		A10011 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = A20011; };
+		A10012 /* globe.js in Resources */ = {isa = PBXBuildFile; fileRef = A20012; };
+		A10013 /* weather.js in Resources */ = {isa = PBXBuildFile; fileRef = A20013; };
+		A10014 /* mapbox-gl-csp.js in Resources */ = {isa = PBXBuildFile; fileRef = A20014; };
+		A10015 /* mapbox-gl-csp-worker.js in Resources */ = {isa = PBXBuildFile; fileRef = A20015; };
+		A10016 /* mapbox-gl.css in Resources */ = {isa = PBXBuildFile; fileRef = A20016; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A20002 /* DesktopWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopWindowManager.swift; sourceTree = "<group>"; };
+		A20003 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		A20004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20005 /* WeatherWallpaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherWallpaper.entitlements; sourceTree = "<group>"; };
+		A20010 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		A20011 /* styles.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
+		A20012 /* globe.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = globe.js; sourceTree = "<group>"; };
+		A20013 /* weather.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = weather.js; sourceTree = "<group>"; };
+		A20014 /* mapbox-gl-csp.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "mapbox-gl-csp.js"; sourceTree = "<group>"; };
+		A20015 /* mapbox-gl-csp-worker.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "mapbox-gl-csp-worker.js"; sourceTree = "<group>"; };
+		A20016 /* mapbox-gl.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "mapbox-gl.css"; sourceTree = "<group>"; };
+		A30000 /* WeatherWallpaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherWallpaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A40000 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A50000 = {
+			isa = PBXGroup;
+			children = (
+				A50001 /* WeatherWallpaper */,
+				A50003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A50001 /* WeatherWallpaper */ = {
+			isa = PBXGroup;
+			children = (
+				A20001 /* AppDelegate.swift */,
+				A20002 /* DesktopWindowManager.swift */,
+				A20003 /* LocationManager.swift */,
+				A20004 /* Info.plist */,
+				A20005 /* WeatherWallpaper.entitlements */,
+				A50002 /* Web */,
+			);
+			path = WeatherWallpaper;
+			sourceTree = "<group>";
+		};
+		A50002 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				A20010 /* index.html */,
+				A20011 /* styles.css */,
+				A20012 /* globe.js */,
+				A20013 /* weather.js */,
+				A20014 /* mapbox-gl-csp.js */,
+				A20015 /* mapbox-gl-csp-worker.js */,
+				A20016 /* mapbox-gl.css */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
+		A50003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A30000 /* WeatherWallpaper.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A60000 /* WeatherWallpaper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80001 /* Build configuration list for PBXNativeTarget "WeatherWallpaper" */;
+			buildPhases = (
+				A70000 /* Sources */,
+				A40000 /* Frameworks */,
+				A70001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WeatherWallpaper;
+			productName = WeatherWallpaper;
+			productReference = A30000 /* WeatherWallpaper.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A90000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A60000 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A80000 /* Build configuration list for PBXProject "WeatherWallpaper" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A50000;
+			productRefGroup = A50003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A60000 /* WeatherWallpaper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A70001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10010 /* index.html in Resources */,
+				A10011 /* styles.css in Resources */,
+				A10012 /* globe.js in Resources */,
+				A10013 /* weather.js in Resources */,
+				A10014 /* mapbox-gl-csp.js in Resources */,
+				A10015 /* mapbox-gl-csp-worker.js in Resources */,
+				A10016 /* mapbox-gl.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A70000 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10001 /* AppDelegate.swift in Sources */,
+				A10002 /* DesktopWindowManager.swift in Sources */,
+				A10003 /* LocationManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AB0000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AB0001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		AB0002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WeatherWallpaper/WeatherWallpaper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WeatherWallpaper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.weatherwallpaper.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AB0003 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = WeatherWallpaper/WeatherWallpaper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WeatherWallpaper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.weatherwallpaper.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A80000 /* Build configuration list for PBXProject "WeatherWallpaper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB0000 /* Debug */,
+				AB0001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80001 /* Build configuration list for PBXNativeTarget "WeatherWallpaper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB0002 /* Debug */,
+				AB0003 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = A90000 /* Project object */;
+}

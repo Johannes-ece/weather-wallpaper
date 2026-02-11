@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
+<title>Weather Wallpaper</title>
+<link rel="stylesheet" href="mapbox-gl.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="globe-map"></div>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="page">
+  <div class="badge fade-up fade-up-1" id="badge">
+    <span class="live-dot"></span>
+    <span id="city-name">Loading&hellip;</span>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="bottom-area fade-up fade-up-2">
+    <div class="bottom-bar" id="bottom-bar">
+      <div class="bar-view" id="weather-view">
+        <div class="bar-current">
+          <div class="bar-temp-row">
+            <span class="temperature" id="temperature">--<span class="unit">&deg;</span></span>
+            <div class="bar-condition">
+              <span class="condition" id="condition">Loading&hellip;</span>
+              <span class="subtitle" id="subtitle"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bar-divider"></div>
+
+        <div class="bar-stats" id="stats"></div>
+
+        <div class="bar-divider"></div>
+
+        <div class="bar-forecast" id="forecast">
+          <span class="bar-loading">Loading&hellip;</span>
+        </div>
+      </div>
+
+      <div class="bar-view bar-hidden" id="allergy-view">
+        <div class="allergy-content" id="allergy-content">
+          <span class="bar-loading">Loading&hellip;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="flight-card" class="flight-card"></div>
+
+<script src="mapbox-gl-csp.js"></script>
+<script src="globe.js"></script>
+<script src="weather.js"></script>
+</body>
+</html>

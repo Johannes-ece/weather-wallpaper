@@ -367,6 +367,15 @@
 
       // Flights start disabled; controlled via window.setFlightsEnabled()
       map.setLayoutProperty('flights-layer', 'visibility', 'none');
+
+      // Restore saved preferences from localStorage
+      var savedZoom = parseFloat(localStorage.getItem('pref-zoom'));
+      if (savedZoom && savedZoom !== 2.5) map.jumpTo({ zoom: savedZoom });
+      if (localStorage.getItem('pref-flights') === 'true') window.setFlightsEnabled(true);
+      if (localStorage.getItem('pref-weather') === 'true') window.setWeatherEnabled(true);
+      if (localStorage.getItem('pref-pollen') === 'true') window.setPollenEnabled(true);
+      if (localStorage.getItem('pref-labels') === 'false') window.setLabelsEnabled(false);
+      if (localStorage.getItem('pref-spin') === 'true') window.setSpinEnabled(true);
     });
 
     // --- Flight fetching ---

@@ -83,8 +83,25 @@ class DesktopWindowManager {
             config.userContentController.addUserScript(script)
         }
 
+        // Inject units preference before page load
+        let metric = UserDefaults.standard.bool(forKey: "metric-units")
+        let unitsScript = WKUserScript(
+            source: "localStorage.setItem('metric-units', '\(metric ? "true" : "false")');",
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        config.userContentController.addUserScript(unitsScript)
+
         // Inject saved location before page load
-        if let loc = pendingLocation {
+        var loc = pendingLocation
+        if loc == nil {
+            let ud = UserDefaults.standard
+            if ud.object(forKey: "pref-location-lat") != nil {
+                loc = (ud.double(forKey: "pref-location-lat"), ud.double(forKey: "pref-location-lon"))
+                pendingLocation = loc
+            }
+        }
+        if let loc = loc {
             let script = WKUserScript(
                 source: "window.userLocation = { name: '', lat: \(loc.lat), lon: \(loc.lon) };",
                 injectionTime: .atDocumentStart,
@@ -92,6 +109,23 @@ class DesktopWindowManager {
             )
             config.userContentController.addUserScript(script)
         }
+
+        // Inject toggle preferences for globe.js to restore on map load
+        let ud = UserDefaults.standard
+        let prefs = """
+        localStorage.setItem('pref-zoom', '\(ud.object(forKey: "pref-zoom") != nil ? ud.double(forKey: "pref-zoom") : 2.5)');
+        localStorage.setItem('pref-flights', '\(ud.bool(forKey: "pref-flights"))');
+        localStorage.setItem('pref-weather', '\(ud.bool(forKey: "pref-weather"))');
+        localStorage.setItem('pref-pollen', '\(ud.bool(forKey: "pref-pollen"))');
+        localStorage.setItem('pref-labels', '\(ud.object(forKey: "pref-labels") != nil ? ud.bool(forKey: "pref-labels") : true)');
+        localStorage.setItem('pref-spin', '\(ud.bool(forKey: "pref-spin"))');
+        """
+        let prefsScript = WKUserScript(
+            source: prefs,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        config.userContentController.addUserScript(prefsScript)
 
         let webView = WKWebView(frame: window.contentView!.bounds, configuration: config)
         webView.autoresizingMask = [.width, .height]
@@ -113,6 +147,8 @@ class DesktopWindowManager {
 
     func injectLocation(lat: Double, lon: Double) {
         pendingLocation = (lat, lon)
+        UserDefaults.standard.set(lat, forKey: "pref-location-lat")
+        UserDefaults.standard.set(lon, forKey: "pref-location-lon")
         let js = """
         window.userLocation = { name: '', lat: \(lat), lon: \(lon) };
         window.dispatchEvent(new CustomEvent('locationUpdated', {
@@ -167,6 +203,11 @@ class DesktopWindowManager {
 
     func injectSpinToggle(_ enabled: Bool) {
         let js = "if (window.setSpinEnabled) window.setSpinEnabled(\(enabled));"
+        evaluateOnAll(js)
+    }
+
+    func injectUnitsToggle(_ metric: Bool) {
+        let js = "if (window.setMetricUnits) window.setMetricUnits(\(metric));"
         evaluateOnAll(js)
     }
 

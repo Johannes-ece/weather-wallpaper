@@ -13,8 +13,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var weatherEnabled: Bool = false
     private var labelsEnabled: Bool = true
     private var spinEnabled: Bool = false
+    private var metricEnabled: Bool = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Auto-detect metric from macOS locale on first launch
+        if UserDefaults.standard.object(forKey: "metric-units") == nil {
+            let useMetric = Locale.current.measurementSystem == .metric
+            UserDefaults.standard.set(useMetric, forKey: "metric-units")
+        }
+        metricEnabled = UserDefaults.standard.bool(forKey: "metric-units")
+
+        // Restore saved settings
+        let ud = UserDefaults.standard
+        currentZoom = ud.object(forKey: "pref-zoom") != nil ? ud.double(forKey: "pref-zoom") : 2.5
+        flightsEnabled = ud.bool(forKey: "pref-flights")
+        weatherEnabled = ud.bool(forKey: "pref-weather")
+        pollenEnabled = ud.bool(forKey: "pref-pollen")
+        labelsEnabled = ud.object(forKey: "pref-labels") != nil ? ud.bool(forKey: "pref-labels") : true
+        spinEnabled = ud.bool(forKey: "pref-spin")
+
         setupMenuBar()
 
         desktopManager = DesktopWindowManager()
@@ -57,31 +74,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
 
         let zoomGlobe = NSMenuItem(title: "Zoom: Globe", action: #selector(setZoomGlobe(_:)), keyEquivalent: "")
-        zoomGlobe.state = .on
+        zoomGlobe.state = currentZoom == 2.5 ? .on : .off
         menu.addItem(zoomGlobe)
         let zoomCountry = NSMenuItem(title: "Zoom: Country", action: #selector(setZoomCountry(_:)), keyEquivalent: "")
+        zoomCountry.state = currentZoom == 5.0 ? .on : .off
         menu.addItem(zoomCountry)
         let zoomCity = NSMenuItem(title: "Zoom: City", action: #selector(setZoomCity(_:)), keyEquivalent: "")
+        zoomCity.state = currentZoom == 8.0 ? .on : .off
         menu.addItem(zoomCity)
         let zoomStreet = NSMenuItem(title: "Zoom: Street", action: #selector(setZoomStreet(_:)), keyEquivalent: "")
+        zoomStreet.state = currentZoom == 12.0 ? .on : .off
         menu.addItem(zoomStreet)
         menu.addItem(NSMenuItem.separator())
 
         let flightsItem = NSMenuItem(title: "Show Flights", action: #selector(toggleFlights(_:)), keyEquivalent: "")
-        flightsItem.state = .off
+        flightsItem.state = flightsEnabled ? .on : .off
         menu.addItem(flightsItem)
         let weatherItem = NSMenuItem(title: "Show Weather Radar", action: #selector(toggleWeather(_:)), keyEquivalent: "")
-        weatherItem.state = .off
+        weatherItem.state = weatherEnabled ? .on : .off
         menu.addItem(weatherItem)
         let pollenItem = NSMenuItem(title: "Show Pollen & Air Quality", action: #selector(togglePollen(_:)), keyEquivalent: "")
-        pollenItem.state = .off
+        pollenItem.state = pollenEnabled ? .on : .off
         menu.addItem(pollenItem)
         let labelsItem = NSMenuItem(title: "Show Labels", action: #selector(toggleLabels(_:)), keyEquivalent: "")
-        labelsItem.state = .on
+        labelsItem.state = labelsEnabled ? .on : .off
         menu.addItem(labelsItem)
         let spinItem = NSMenuItem(title: "Spin Globe", action: #selector(toggleSpin(_:)), keyEquivalent: "")
-        spinItem.state = .off
+        spinItem.state = spinEnabled ? .on : .off
         menu.addItem(spinItem)
+        let metricItem = NSMenuItem(title: "Use Metric Units", action: #selector(toggleMetric(_:)), keyEquivalent: "")
+        metricItem.state = metricEnabled ? .on : .off
+        menu.addItem(metricItem)
         menu.addItem(NSMenuItem.separator())
 
         let launchItem = NSMenuItem(title: "Launch at Login", action: #selector(toggleLaunchAtLogin(_:)), keyEquivalent: "")
@@ -207,24 +230,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func setZoomGlobe(_ sender: NSMenuItem) {
         currentZoom = 2.5
+        UserDefaults.standard.set(currentZoom, forKey: "pref-zoom")
         desktopManager.injectZoom(currentZoom)
         updateZoomCheckmarks()
     }
 
     @objc private func setZoomCountry(_ sender: NSMenuItem) {
         currentZoom = 5.0
+        UserDefaults.standard.set(currentZoom, forKey: "pref-zoom")
         desktopManager.injectZoom(currentZoom)
         updateZoomCheckmarks()
     }
 
     @objc private func setZoomCity(_ sender: NSMenuItem) {
         currentZoom = 8.0
+        UserDefaults.standard.set(currentZoom, forKey: "pref-zoom")
         desktopManager.injectZoom(currentZoom)
         updateZoomCheckmarks()
     }
 
     @objc private func setZoomStreet(_ sender: NSMenuItem) {
         currentZoom = 12.0
+        UserDefaults.standard.set(currentZoom, forKey: "pref-zoom")
         desktopManager.injectZoom(currentZoom)
         updateZoomCheckmarks()
     }
@@ -234,31 +261,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func toggleFlights(_ sender: NSMenuItem) {
         flightsEnabled.toggle()
         sender.state = flightsEnabled ? .on : .off
+        UserDefaults.standard.set(flightsEnabled, forKey: "pref-flights")
         desktopManager.injectFlightsToggle(flightsEnabled)
     }
 
     @objc private func toggleWeather(_ sender: NSMenuItem) {
         weatherEnabled.toggle()
         sender.state = weatherEnabled ? .on : .off
+        UserDefaults.standard.set(weatherEnabled, forKey: "pref-weather")
         desktopManager.injectWeatherToggle(weatherEnabled)
     }
 
     @objc private func togglePollen(_ sender: NSMenuItem) {
         pollenEnabled.toggle()
         sender.state = pollenEnabled ? .on : .off
+        UserDefaults.standard.set(pollenEnabled, forKey: "pref-pollen")
         desktopManager.injectPollenToggle(pollenEnabled)
     }
 
     @objc private func toggleLabels(_ sender: NSMenuItem) {
         labelsEnabled.toggle()
         sender.state = labelsEnabled ? .on : .off
+        UserDefaults.standard.set(labelsEnabled, forKey: "pref-labels")
         desktopManager.injectLabelsToggle(labelsEnabled)
     }
 
     @objc private func toggleSpin(_ sender: NSMenuItem) {
         spinEnabled.toggle()
         sender.state = spinEnabled ? .on : .off
+        UserDefaults.standard.set(spinEnabled, forKey: "pref-spin")
         desktopManager.injectSpinToggle(spinEnabled)
+    }
+
+    @objc private func toggleMetric(_ sender: NSMenuItem) {
+        metricEnabled.toggle()
+        sender.state = metricEnabled ? .on : .off
+        UserDefaults.standard.set(metricEnabled, forKey: "metric-units")
+        desktopManager.injectUnitsToggle(metricEnabled)
     }
 
     @objc private func toggleLaunchAtLogin(_ sender: NSMenuItem) {

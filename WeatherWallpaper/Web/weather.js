@@ -13,6 +13,22 @@ function getPollenApiKey() {
   return localStorage.getItem(POLLEN_KEY_STORAGE) || '';
 }
 
+function isMetric() {
+  return localStorage.getItem('metric-units') === 'true';
+}
+
+window.setMetricUnits = async function(on) {
+  localStorage.setItem('metric-units', on ? 'true' : 'false');
+  localStorage.removeItem(CACHE_KEY);
+  try {
+    var loc = getLocation();
+    var data = await fetchWeather(loc);
+    render(data);
+  } catch (e) {
+    console.error('Weather re-fetch failed:', e);
+  }
+};
+
 function getLocation() {
   if (window.userLocation) return window.userLocation;
   return DEFAULT_LOCATION;
@@ -182,7 +198,7 @@ function render(data) {
 
   var stats = [
     { label: 'Humidity', value: current.humidity != null ? Math.round(current.humidity) + '%' : '--' },
-    { label: 'Wind', value: current.windSpeed != null ? Math.round(current.windSpeed) + ' mph' : '--' },
+    { label: 'Wind', value: current.windSpeed != null ? Math.round(current.windSpeed) + (isMetric() ? ' km/h' : ' mph') : '--' },
   ];
 
   var statsHtml = stats.map(function(s) {
@@ -215,8 +231,8 @@ async function fetchWeather(loc) {
     '&longitude=' + loc.lon +
     '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,dew_point_2m' +
     '&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset' +
-    '&temperature_unit=fahrenheit' +
-    '&wind_speed_unit=mph' +
+    '&temperature_unit=' + (isMetric() ? 'celsius' : 'fahrenheit') +
+    '&wind_speed_unit=' + (isMetric() ? 'kmh' : 'mph') +
     '&timezone=auto' +
     '&forecast_days=7';
 
